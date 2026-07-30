@@ -1,0 +1,160 @@
+﻿@* Connects this View to the Ticket model class. *@
+@model LU2TicketMvc.Models.Ticket
+
+@* Sets the title displayed in the browser and layout page. *@
+@{
+    ViewData["Title"] = "Student Support Ticket";
+}
+
+@* Creates a Bootstrap container to keep the page content aligned. *@
+<div class="container mt-5">
+
+    @* Creates a centred row for the form. *@
+    <div class="row justify-content-center">
+
+        @* Controls the width of the form on medium and large screens. *@
+        <div class="col-md-8 col-lg-6">
+
+            @* Creates a Bootstrap card around the form. *@
+            <div class="card shadow">
+
+                @* Creates the heading section of the card. *@
+                <div class="card-header bg-primary text-white">
+
+                    @* Displays the main heading. *@
+                    <h2 class="mb-0">Student Support Ticket</h2>
+
+                </div> @* Closes the div class *@
+
+                @* Creates the main content section of the card. *@
+                <div class="card-body">
+
+                    @* Displays a short instruction to the student. *@
+                    <p class="text-muted">
+                        Complete the form below to submit a support request.
+                    </p>
+
+                    @* Creates a form that sends information to the SubmitTicket action
+                       inside the HomeController using the HTTP POST method. *@
+                    <form asp-controller="Home"
+                          asp-action="SubmitTicket"
+                          method="post">
+
+                        @* Stores the ticket ID without displaying it on the page. *@
+                        <input asp-for="Id" type="hidden" />
+
+                        @* Creates the form section for the student's name. *@
+                        <div class="mb-3">
+
+                            @* Creates a label linked to the StudentName property. *@
+                            <label asp-for="StudentName"
+                                   class="form-label">
+                                Student Name
+                            </label>
+
+                            @* Creates a textbox linked to the StudentName property. *@
+                            <input asp-for="StudentName"
+                                   class="form-control"
+                                   placeholder="Enter your full name" />
+
+                            @* Displays a validation message for StudentName. *@
+                            <span asp-validation-for="StudentName"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        @* Creates the form section for the student's email address. *@
+                        <div class="mb-3">
+
+                            @* Creates a label linked to the StudentEmail property. *@
+                            <label asp-for="StudentEmail"
+                                   class="form-label">
+                                Student Email
+                            </label>
+
+                            @* Creates an email textbox linked to StudentEmail. *@
+                            <input asp-for="StudentEmail"
+                                   type="email"
+                                   class="form-control"
+                                   placeholder="Enter your student email address" />
+
+                            @* Displays a validation message for StudentEmail. *@
+                            <span asp-validation-for="StudentEmail"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        @* Creates the form section for the support issue. *@
+                        <div class="mb-3">
+
+                            @* Creates a label linked to the Issue property. *@
+                            <label asp-for="Issue"
+                                   class="form-label">
+                                Support Issue
+                            </label>
+
+                            @* Creates a larger textbox linked to the Issue property. *@
+                            <textarea asp-for="Issue"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Describe the problem you are experiencing">
+                            </textarea>
+
+                            @* Displays a validation message for Issue. *@
+                            <span asp-validation-for="Issue"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        @* Creates the form section for the ticket status. *@
+                        <div class="mb-3">
+
+                            @* Displays a normal heading for the status. *@
+                            <label class="form-label">
+                                Ticket Status
+                            </label>
+
+                            @* Displays the default status as Open. *@
+                            <input asp-for="Status"
+                                   class="form-control"
+                                   readonly />
+
+                            @* Stores and submits the current status value. *@
+                            <input asp-for="Status"
+                                   type="hidden" />
+
+                        </div>
+
+                        @* Creates a full-width submit button. *@
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+
+                            @* Text displayed inside the button. *@
+                            Submit Ticket
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@* Loads the default client-side validation scripts. *@
+@section Scripts {
+
+    @* Loads the validation partial view supplied by the MVC template. *@
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
