@@ -1,0 +1,29 @@
+name: Part 1 CI Validation
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  validate-part1:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Check required Part 1 files
+      run: |
+        test -f docs/RaceDay_ERD.pdf
+        test -f docs/RaceDay_API_Endpoint_Plan.pdf
+        test -f docs/RaceDay_Database.sql
+        test -f README.md
+
+    - name: Validate SQL script is not empty
+      run: |
+        test -s docs/RaceDay_Database.sql
+
+    - name: Part 1 validation successful
+      run: echo "All required Part 1 files are present."
