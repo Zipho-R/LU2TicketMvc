@@ -117,7 +117,7 @@ Refer to the [Database Setup Guide](docs/Database_Setup.md) for instructions on 
 
 ## Video Demonstration
 
-YouTube Link: **To be added after the Part 1 video has been recorded and uploaded as Unlisted.**
+YouTube Link: https://youtu.be/ku8yIwXTC8M
 
 # LU2TicketMvc
 
