@@ -1,6 +1,6 @@
 # RaceDay Event Management System
 
-## Part 1 – System Planning and Database
+## Part 1 – System Planning
 
 RaceDay is an event management system designed to support the management of sporting events, participant enrolments, event categories and race results.
 
@@ -8,10 +8,21 @@ Part 1 focuses on system planning, database design and API endpoint planning. Th
 
 ### User Roles
 
-The system supports two main user roles:
+The system supports two main user roles :
 
 - **Organiser** – creates and manages events and categories, views participant enrolments, and captures race results.
 - **Participant** – views events, enrols in event categories, manages their profile and views their own results.
+
+## Part 1 – Database
+
+The Part 1 design consists of six database entities:
+
+1. Role
+2. User
+3. Event
+4. Category
+5. Enrolment
+6. Result
 
 ### Part 1 Deliverables
 
