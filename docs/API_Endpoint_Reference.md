@@ -1,97 +1,139 @@
 # RaceDay API Endpoint Reference
 
-## Overview
+## 1. Overview
 
-This document provides a reference for the API endpoints planned for the RaceDay Event Management System.
+This document provides a reference for the planned REST API for the RaceDay Event Management System.
 
-The API will support authentication, user profiles, event management, event categories, participant enrolments and race results.
+Part 1 focuses on system planning and does not require implementation of the API.
 
-The detailed API planning document is available at:
+The planned API supports:
 
-`docs/RaceDay_API_Endpoint_Plan.pdf`
+* Authentication
+* User profiles
+* Event management
+* Event categories
+* Participant enrolments
+* Race results
 
-## Authentication
+The system uses role-based access control with two main roles:
 
-| Method | Route | Role | Purpose |
-|---|---|---|---|
-| POST | `/api/auth/register` | None | Register a new organiser or participant |
-| POST | `/api/auth/login` | None | Authenticate a user and return an access token |
+* Organiser
+* Participant
 
-## User Profile
+## 2. Authentication
 
-| Method | Route | Role | Purpose |
-|---|---|---|---|
-| GET | `/api/users/me` | Any authenticated user | View the current user's profile |
-| PUT | `/api/users/me` | Any authenticated user | Update the current user's profile |
+| Method | Route                | Description                                               | Role Required | Request Body                      | Expected Response                          |
+| ------ | -------------------- | --------------------------------------------------------- | ------------- | --------------------------------- | ------------------------------------------ |
+| POST   | `/api/auth/register` | Registers a new RaceDay user.                             | None          | `fullName, email, password, role` | 201 Created; 400 Bad Request; 409 Conflict |
+| POST   | `/api/auth/login`    | Authenticates a user and returns an authentication token. | None          | `email, password`                 | 200 OK; 401 Unauthorized                   |
 
-## Events
+## 3. User Profile
 
-| Method | Route | Role | Purpose |
-|---|---|---|---|
-| GET | `/api/events` | None | View all upcoming events |
-| GET | `/api/events/{id}` | None | View details for a specific event |
-| POST | `/api/events` | Organiser | Create a new event |
-| PUT | `/api/events/{id}` | Organiser | Update an event managed by the organiser |
-| DELETE | `/api/events/{id}` | Organiser | Delete an event managed by the organiser |
+| Method | Route           | Description                                           | Role Required          | Request Body              | Expected Response                         |
+| ------ | --------------- | ----------------------------------------------------- | ---------------------- | ------------------------- | ----------------------------------------- |
+| GET    | `/api/users/me` | Retrieves the authenticated user's profile.           | Any authenticated user | None                      | 200 OK; 401 Unauthorized                  |
+| PUT    | `/api/users/me` | Updates the authenticated user's profile information. | Any authenticated user | `fullName, contactNumber` | 200 OK; 400 Bad Request; 401 Unauthorized |
 
-## Event Categories
+## 4. Events
 
-| Method | Route | Role | Purpose |
-|---|---|---|---|
-| GET | `/api/events/{id}/categories` | None | View categories belonging to an event |
-| POST | `/api/events/{id}/categories` | Organiser | Create a category for an organiser's event |
-| PUT | `/api/categories/{id}` | Organiser | Update an event category |
-| DELETE | `/api/categories/{id}` | Organiser | Delete an event category |
+| Method | Route              | Description                                | Role Required | Request Body                                                       | Expected Response                                             |
+| ------ | ------------------ | ------------------------------------------ | ------------- | ------------------------------------------------------------------ | ------------------------------------------------------------- |
+| GET    | `/api/events`      | Retrieves upcoming RaceDay events.         | None          | None                                                               | 200 OK                                                        |
+| GET    | `/api/events/{id}` | Retrieves details for a specific event.    | None          | None                                                               | 200 OK; 404 Not Found                                         |
+| POST   | `/api/events`      | Creates a new sporting event.              | Organiser     | `eventName, description, eventDate, location, distance, eventType` | 201 Created; 400 Bad Request; 401 Unauthorized; 403 Forbidden |
+| PUT    | `/api/events/{id}` | Updates an event managed by the organiser. | Organiser     | `eventName, description, eventDate, location, distance, eventType` | 200 OK; 400 Bad Request; 403 Forbidden; 404 Not Found         |
+| DELETE | `/api/events/{id}` | Deletes an event managed by the organiser. | Organiser     | None                                                               | 204 No Content; 403 Forbidden; 404 Not Found                  |
 
-## Event Enrolments
+## 5. Categories
 
-| Method | Route | Role | Purpose |
-|---|---|---|---|
-| POST | `/api/enrolments` | Participant | Enrol in an event and select a category |
-| GET | `/api/enrolments/me` | Participant | View the participant's own enrolments |
-| GET | `/api/events/{id}/enrolments` | Organiser | View enrolments for an organiser's event |
-| DELETE | `/api/enrolments/{id}` | Participant | Cancel the participant's own enrolment |
+| Method | Route                         | Description                                  | Role Required | Request Body             | Expected Response                                          |
+| ------ | ----------------------------- | -------------------------------------------- | ------------- | ------------------------ | ---------------------------------------------------------- |
+| GET    | `/api/events/{id}/categories` | Retrieves categories belonging to an event.  | None          | None                     | 200 OK; 404 Not Found                                      |
+| POST   | `/api/events/{id}/categories` | Creates a category for an organiser's event. | Organiser     | `categoryName, distance` | 201 Created; 400 Bad Request; 403 Forbidden; 404 Not Found |
+| PUT    | `/api/categories/{id}`        | Updates an existing event category.          | Organiser     | `categoryName, distance` | 200 OK; 400 Bad Request; 403 Forbidden; 404 Not Found      |
+| DELETE | `/api/categories/{id}`        | Deletes an event category.                   | Organiser     | None                     | 204 No Content; 403 Forbidden; 404 Not Found               |
 
-## Results
+## 6. Event Enrolments
 
-| Method | Route | Role | Purpose |
-|---|---|---|---|
-| POST | `/api/results` | Organiser | Capture a participant's race result |
-| PUT | `/api/results/{id}` | Organiser | Update or correct a race result |
-| GET | `/api/results/me` | Participant | View the participant's own results |
-| GET | `/api/events/{id}/results` | Organiser | View results for an organiser's event |
+| Method | Route                         | Description                                             | Role Required | Request Body          | Expected Response                                            |
+| ------ | ----------------------------- | ------------------------------------------------------- | ------------- | --------------------- | ------------------------------------------------------------ |
+| POST   | `/api/enrolments`             | Enrols a participant into an event category.            | Participant   | `eventId, categoryId` | 201 Created; 400 Bad Request; 401 Unauthorized; 409 Conflict |
+| GET    | `/api/enrolments/me`          | Retrieves the authenticated participant's enrolments.   | Participant   | None                  | 200 OK; 401 Unauthorized                                     |
+| GET    | `/api/events/{id}/enrolments` | Allows an organiser to view enrolments for their event. | Organiser     | None                  | 200 OK; 403 Forbidden; 404 Not Found                         |
+| DELETE | `/api/enrolments/{id}`        | Cancels the participant's own enrolment.                | Participant   | None                  | 204 No Content; 403 Forbidden; 404 Not Found                 |
 
-## Role-Based Access
+## 7. Results
 
-The planned API uses role-based access control.
+| Method | Route                      | Description                                                  | Role Required | Request Body                              | Expected Response                                          |
+| ------ | -------------------------- | ------------------------------------------------------------ | ------------- | ----------------------------------------- | ---------------------------------------------------------- |
+| POST   | `/api/results`             | Captures a participant's race result.                        | Organiser     | `enrolmentId, finishTime, finishPosition` | 201 Created; 400 Bad Request; 403 Forbidden; 404 Not Found |
+| PUT    | `/api/results/{id}`        | Updates or corrects an existing race result.                 | Organiser     | `finishTime, finishPosition`              | 200 OK; 400 Bad Request; 403 Forbidden; 404 Not Found      |
+| GET    | `/api/results/me`          | Retrieves the authenticated participant's result history.    | Participant   | None                                      | 200 OK; 401 Unauthorized                                   |
+| GET    | `/api/events/{id}/results` | Allows an organiser to view results for their managed event. | Organiser     | None                                      | 200 OK; 403 Forbidden; 404 Not Found                       |
+
+## 8. Role-Based Access Summary
 
 ### Organiser
 
 Organisers can:
 
-- Create and manage their events.
-- Create and manage event categories.
-- View enrolments for their events.
-- Capture and update participant results.
-- View results for their managed events.
+* Create events.
+* Update events they manage.
+* Delete events they manage.
+* Create event categories.
+* Update categories.
+* Delete categories.
+* View participant enrolments for their events.
+* Capture race results.
+* Correct race results.
+* View results for events they manage.
 
 ### Participant
 
 Participants can:
 
-- View available events.
-- Manage their own profile.
-- Enrol in event categories.
-- View their own enrolments.
-- Cancel their own enrolments.
-- View their own race results.
+* View available events.
+* View event details.
+* View event categories.
+* Enrol in an event category.
+* View their own enrolments.
+* Cancel their own enrolments.
+* View their own race results.
+* Update their own profile.
 
-### Public Access
+### Public/Unauthenticated Access
 
-Unauthenticated users can:
+The planned public endpoints allow users to:
 
-- View available events.
-- View individual event details.
-- View event categories.
+* Register.
+* Log in.
+* View available events.
+* View individual event details.
+* View event categories.
 
-Authentication and authorisation will be implemented during the API development phase.
+## 9. HTTP Response Codes
+
+The API uses standard HTTP status codes to communicate the result of each request.
+
+| Status Code      | Meaning                                                                |
+| ---------------- | ---------------------------------------------------------------------- |
+| 200 OK           | Request completed successfully.                                        |
+| 201 Created      | A new resource was successfully created.                               |
+| 204 No Content   | Request completed successfully with no response body.                  |
+| 400 Bad Request  | The request contains invalid data.                                     |
+| 401 Unauthorized | Authentication is required or credentials are invalid.                 |
+| 403 Forbidden    | The authenticated user does not have permission to perform the action. |
+| 404 Not Found    | The requested resource could not be found.                             |
+| 409 Conflict     | The request conflicts with an existing record or rule.                 |
+
+## 10. Security and Access Control
+
+The planned API uses authentication and role-based authorisation.
+
+Authenticated requests will use the user's identity to determine whether the requested operation is permitted.
+
+Organisers are restricted to managing events and results that they are authorised to manage.
+
+Participants are restricted to their own enrolments and result history.
+
+This access-control design helps protect participant information and prevents users from modifying resources belonging to other users.
