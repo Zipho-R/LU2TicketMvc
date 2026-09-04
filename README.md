@@ -1,3 +1,44 @@
+# RaceDay Event Management System
+
+## Part 1 – System Planning and Database
+
+RaceDay is an event management system designed to support the management of sporting events, participant enrolments, event categories and race results.
+
+Part 1 focuses on system planning, database design and API endpoint planning. The API and MVC implementation will be completed in a later phase.
+
+### User Roles
+
+The system supports two main user roles:
+
+- **Organiser** – creates and manages events and categories, views participant enrolments, and captures race results.
+- **Participant** – views events, enrols in event categories, manages their profile and views their own results.
+
+### Part 1 Deliverables
+
+The following Part 1 documents are stored in the `docs` folder:
+
+- `RaceDay_ERD.pdf` – Entity Relationship Diagram
+- `RaceDay_API_Endpoint_Plan.pdf` – API endpoint planning
+- `RaceDay_Database.sql` – SQL Server database creation and seed script
+
+### Repository Structure
+
+```text
+LU2TicketMvc/
+├── .github/
+│   └── workflows/
+│       ├── dotnet.yml
+│       └── part1-ci.yml
+├── docs/
+│   ├── RaceDay_ERD.pdf
+│   ├── RaceDay_API_Endpoint_Plan.pdf
+│   └── RaceDay_Database.sql
+├── Models/
+├── Controllers/
+├── Views/
+├── wwwroot/
+└── README.md
+
 # LU2TicketMvc
 This project is a simple ASP.NET Core MVC application for submitting a student support ticket.
 
