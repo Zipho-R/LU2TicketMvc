@@ -94,3 +94,35 @@ Additional constraints ensure that:
 - A participant cannot create duplicate enrolments for the same event.
 - A category selected for an enrolment must belong to the selected event.
 - An enrolment can have at most one result.
+
+## Database Verification
+
+After running the SQL script successfully, the following six tables should be available:
+
+1. Role
+2. User
+3. Event
+4. Category
+5. Enrolment
+6. Result
+
+The script also inserts sample data for:
+
+- 2 Organisers
+- 2 Participants
+- 3 Events
+- Event categories
+- Sample participant enrolments
+- Sample race results
+
+The database can be verified by running SELECT queries against each table.
+
+Example:
+
+```sql
+SELECT * FROM dbo.[Role];
+SELECT * FROM dbo.[User];
+SELECT * FROM dbo.[Event];
+SELECT * FROM dbo.[Category];
+SELECT * FROM dbo.[Enrolment];
+SELECT * FROM dbo.[Result];
