@@ -1,143 +1,147 @@
 # RaceDay System Requirements
 
-## Overview
+## 1. Overview
 
-The RaceDay Event Management System is designed to manage sporting events, participants, event categories, enrolments and race results.
+The RaceDay Event Management System is designed to manage sporting events, event categories, participant enrolments and race results.
 
-Part 1 focuses on planning and database design. The actual API and MVC implementation will be completed in a later development phase.
+The system supports two main user roles:
 
-## Functional Requirements
+- Organiser
+- Participant
 
-### Authentication
+## 2. Functional Requirements
 
-The system must allow users to:
+### FR1 — User Registration
 
-- Register as an Organiser or Participant.
-- Log in using their email address and password.
-- Receive appropriate authentication credentials after successful login.
+The system shall allow users to register as either an Organiser or Participant.
 
-### User Profiles
+### FR2 — User Authentication
 
-Authenticated users must be able to:
+The system shall authenticate registered users using their email address and password.
 
-- View their own profile.
-- Update their name and contact number.
+### FR3 — User Profile
 
-### Event Management
+Authenticated users shall be able to view and update their own profile information.
 
-The system must allow users to:
+### FR4 — Event Management
 
-- View available upcoming events.
-- View the details of an individual event.
+Organisers shall be able to create, view, update and delete events that they manage.
 
-Organisers must be able to:
+### FR5 — Event Categories
 
-- Create events.
-- Update events they manage.
-- Delete events they manage.
+Organisers shall be able to create, view, update and delete categories associated with their events.
 
-### Category Management
+### FR6 — Event Browsing
 
-The system must allow users to view the categories available for an event.
+Users shall be able to view available events and their details.
 
-Organisers must be able to:
+### FR7 — Participant Enrolment
 
-- Create categories for their events.
-- Update categories they manage.
-- Delete categories they manage.
+Participants shall be able to enrol in an event by selecting an available category.
 
-### Participant Enrolment
+### FR8 — Enrolment Management
 
-Participants must be able to:
+Participants shall be able to view and cancel their own enrolments.
 
-- Enrol in an event.
-- Select an available category when enrolling.
-- View their own enrolments.
-- Cancel their own enrolments.
+### FR9 — Enrolment Administration
 
-The system must ensure that the selected category belongs to the event being entered.
+Organisers shall be able to view participant enrolments for events that they manage.
 
-### Organiser Enrolment Management
+### FR10 — Result Capture
 
-Organisers must be able to:
+Organisers shall be able to record race results for enrolled participants.
 
-- View enrolments for events they manage.
-- Identify the participants enrolled in their events.
-- Identify the category selected by each participant.
+### FR11 — Result Correction
 
-### Race Results
+Organisers shall be able to update or correct race results that they have permission to manage.
 
-Organisers must be able to:
+### FR12 — Result Viewing
 
-- Capture a participant's finish time.
-- Capture a participant's finishing position.
-- Update or correct a recorded result.
-- View results for events they manage.
+Participants shall be able to view their own race result history.
 
-Participants must be able to:
+### FR13 — Event Results
 
-- View their own race results.
+Organisers shall be able to view results associated with events they manage.
 
-## Role-Based Access Requirements
+## 3. Role Requirements
 
 ### Organiser
 
-An Organiser can:
+An Organiser shall be able to:
 
-- Manage their own events.
-- Manage categories for their events.
-- View enrolments for their events.
-- Capture and update results.
-- View results for their events.
+- Manage their user profile.
+- Create and manage events.
+- Create and manage event categories.
+- View participant enrolments for their events.
+- Capture race results.
+- Update race results.
+- View results for their managed events.
 
 ### Participant
 
-A Participant can:
+A Participant shall be able to:
 
-- View available events.
-- Manage their own profile.
+- Manage their user profile.
+- Browse available events.
+- View event categories.
 - Enrol in events.
-- Select event categories.
-- View their own enrolments.
+- View their enrolments.
 - Cancel their own enrolments.
 - View their own results.
 
-## Data Integrity Requirements
+## 4. Data Requirements
 
-The database must:
+The system shall maintain data for:
 
-- Use primary keys for all entities.
+- User roles
+- Registered users
+- Sporting events
+- Event categories
+- Participant enrolments
+- Race results
+
+## 5. Security Requirements
+
+The system shall:
+
+- Require authentication for protected operations.
+- Apply role-based access control.
+- Prevent participants from managing organiser resources.
+- Prevent users from accessing other users' private profile or result information.
+- Restrict organisers to resources they are authorised to manage.
+- Store passwords as password hashes rather than plain text.
+
+## 6. Data Integrity Requirements
+
+The database shall:
+
+- Use primary keys to uniquely identify records.
 - Use foreign keys to maintain relationships.
 - Prevent duplicate user email addresses.
-- Ensure categories belong to valid events.
-- Ensure enrolments reference valid participants, events and categories.
-- Ensure the category selected during enrolment belongs to the selected event.
-- Prevent an enrolment from having more than one result.
-- Restrict role and status values to valid options.
+- Prevent duplicate participant enrolments for the same event.
+- Ensure an enrolment can have at most one result.
+- Ensure selected categories belong to the selected event.
+- Restrict event types to valid values.
+- Restrict enrolment statuses to valid values.
 
-## Non-Functional Requirements
+## 7. Non-Functional Requirements
 
-The system should:
+### Usability
 
-- Protect authenticated resources through role-based authorisation.
-- Maintain data consistency through database constraints.
-- Provide clear validation for invalid user input.
-- Use meaningful HTTP status codes in API responses.
-- Be maintainable through a clear project and documentation structure.
-- Be version controlled using Git and GitHub.
-- Use automated GitHub Actions checks to validate the repository.
+The system should provide clear and understandable workflows for Organisers and Participants.
 
-## Part 1 Scope
+### Reliability
 
-The following are included in Part 1:
+The database should maintain consistent and accurate records through appropriate constraints and relationships.
 
-- System planning.
-- ERD design.
-- Database design.
-- SQL database script.
-- API endpoint planning.
-- Repository setup.
-- GitHub Actions validation.
-- Project documentation.
+### Security
 
-API implementation, controllers, MVC functionality and other application development will be completed in a later phase.
+Access to protected operations should be controlled using authentication and authorisation.
+
+### Maintainability
+
+The system should use a structured relational database and clearly documented API design to support future development.
+
+### Scalability
+
+The design should allow additional events, categories, users, enrolments and results to be added without changing the fundamental database structure.
