@@ -21,6 +21,14 @@ The following Part 1 documents are stored in the `docs` folder:
 - `RaceDay_API_Endpoint_Plan.pdf` – API endpoint planning
 - `RaceDay_Database.sql` – SQL Server database creation and seed script
 
+### Supporting Documentation
+
+Additional documentation for the Part 1 planning and database work is available below:
+
+- [Database Setup Guide](docs/Database_Setup.md)
+- [ERD Description](docs/ERD_Description.md)
+- [API Endpoint Reference](docs/API_Endpoint_Reference.md)
+
 ### Repository Structure
 
 ```text
