@@ -40,18 +40,24 @@ Additional documentation for the Part 1 planning and database work is available 
 - [ERD Description](docs/ERD_Description.md)
 - [API Endpoint Reference](docs/API_Endpoint_Reference.md)
 
-### Repository Structure
+### Part 1 Repository Structure
 
 ```text
-LU2TicketMvc/
-├── .github/
-│   └── workflows/
-│       ├── dotnet.yml
-│       └── part1-ci.yml
-├── docs/
-│   ├── RaceDay_ERD.pdf
-│   ├── RaceDay_API_Endpoint_Plan.pdf
-│   └── RaceDay_Database.sql
+.github/
+└── workflows/
+    ├── dotnet.yml
+    └── part1-ci.yml
+
+docs/
+├── RaceDay_ERD.pdf
+├── RaceDay_API_Endpoint_Plan.pdf
+├── RaceDay_Database.sql
+├── Database_Setup.md
+├── ERD_Description.md
+├── API_Endpoint_Reference.md
+├── Data_Dictionary.md
+└── RaceDay_Requirements.md
+|   
 ├── Models/
 ├── Controllers/
 ├── Views/
