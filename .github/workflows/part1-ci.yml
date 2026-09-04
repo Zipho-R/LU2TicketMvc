@@ -23,6 +23,12 @@ jobs:
         test -f docs/ERD_Description.md
         test -f docs/API_Endpoint_Reference.md
         test -f README.md
+    - name: Validate SQL database script
+      run: |
+        grep -qi "CREATE TABLE" docs/RaceDay_Database.sql
+        grep -qi "PRIMARY KEY" docs/RaceDay_Database.sql
+        grep -qi "FOREIGN KEY" docs/RaceDay_Database.sql
+        grep -qi "INSERT INTO" docs/RaceDay_Database.sql
 
     - name: Validate SQL script is not empty
       run: |
