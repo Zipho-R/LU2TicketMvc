@@ -67,7 +67,7 @@ docs/
 # LU2TicketMvc
 This project is a simple ASP.NET Core MVC application for submitting a student support ticket.
 
-The project is divided into three main parts:
+The project is divided into 3 main parts:
 
 Model: stores the ticket information
 
