@@ -1,203 +1,281 @@
 # RaceDay ERD Description
 
-## Overview
+## 1. Overview
 
-The RaceDay Event Management System database consists of six main entities:
+The RaceDay Event Management System uses a relational database to manage users, sporting events, event categories, participant enrolments and race results.
 
-- Role
-- User
-- Event
-- Category
-- Enrolment
-- Result
+The Entity Relationship Diagram (ERD) represents the structure of the database and shows how the six main entities are connected.
 
-The Entity Relationship Diagram (ERD) shows how these entities are connected and how the database supports the main RaceDay system requirements.
+The six entities are:
 
-The complete ERD is available in:
+1. Role
+2. User
+3. Event
+4. Category
+5. Enrolment
+6. Result
 
-`docs/RaceDay_ERD.pdf`
+The database design uses primary keys to uniquely identify records and foreign keys to maintain relationships between related entities.
 
-## Entities
+## 2. Entity Descriptions
 
-### 1. Role
+### 2.1 Role
 
-The Role entity stores the different roles available in the system.
+The Role entity stores the roles available within the RaceDay system.
 
-A role can be assigned to many users.
+The two roles are:
 
-Main attributes:
+* Organiser
+* Participant
 
-- `RoleID` – Primary Key
-- `RoleName` – Name of the role
+`RoleID` is the primary key and uniquely identifies each role.
 
-The system supports two roles:
+`RoleName` is unique to prevent duplicate role definitions.
 
-- Organiser
-- Participant
+### 2.2 User
 
-### 2. User
+The User entity stores registered RaceDay users.
 
-The User entity stores registered system users.
+A user has:
 
-Main attributes:
+* A unique user ID
+* Full name
+* Email address
+* Password hash
+* Contact number
+* Assigned role
+* Registration date
 
-- `UserID` – Primary Key
-- `FullName`
-- `Email`
-- `PasswordHash`
-- `ContactNumber`
-- `RoleID` – Foreign Key
-- `DateRegistered`
+`UserID` is the primary key.
 
-Each user must have a valid role.
+`RoleID` is a foreign key referencing the Role entity.
 
-A user with the Organiser role can manage events and capture results, while a user with the Participant role can enrol in events and view their own results.
+A user can be an Organiser or Participant depending on the role assigned to the account.
 
-### 3. Event
+### 2.3 Event
 
-The Event entity stores information about sporting events.
+The Event entity stores sporting events managed by RaceDay.
 
-Main attributes:
+Each event contains information such as:
 
-- `EventID` – Primary Key
-- `EventName`
-- `Description`
-- `EventDate`
-- `Location`
-- `Distance`
-- `EventType`
-- `OrganiserID` – Foreign Key
+* Event name
+* Description
+* Event date
+* Location
+* Distance
+* Event type
+* Organiser
 
-Each event is managed by an organiser.
+`EventID` is the primary key.
 
-An organiser can manage multiple events.
+`OrganiserID` is a foreign key referencing `User.UserID`.
 
-### 4. Category
+Only users with the Organiser role are intended to manage events.
 
-The Category entity stores the different participation categories available within an event.
+### 2.4 Category
 
-Main attributes:
+The Category entity stores the categories available within an event.
 
-- `CategoryID` – Primary Key
-- `CategoryName`
-- `Distance`
-- `EventID` – Foreign Key
+Examples include:
 
-Each category belongs to one event.
+* Full Marathon
+* Half Marathon
+* 5km Fun Walk
+* 10km Fun Walk
+* 60km Open
+* 30km Novice
 
-An event can have multiple categories.
+`CategoryID` is the primary key.
 
-### 5. Enrolment
+`EventID` is a foreign key referencing the Event entity.
 
-The Enrolment entity records participants who enrol in events and select an event category.
+An event can contain multiple categories, while each category belongs to one event.
 
-Main attributes:
+### 2.5 Enrolment
 
-- `EnrolmentID` – Primary Key
-- `ParticipantID` – Foreign Key
-- `EventID` – Foreign Key
-- `CategoryID` – Foreign Key
-- `EnrolmentDate`
-- `Status`
+The Enrolment entity records participants registering for events and selecting event categories.
 
-Enrolment resolves the many-to-many relationship between participants and events.
+An enrolment contains:
 
-A participant can enrol in multiple events, and an event can have multiple participants.
+* Participant
+* Event
+* Category
+* Enrolment date
+* Enrolment status
 
-The database also ensures that the selected category belongs to the same event as the enrolment.
+`EnrolmentID` is the primary key.
 
-### 6. Result
+`ParticipantID` references the User entity.
+
+`EventID` references the Event entity.
+
+`CategoryID` references the Category entity.
+
+The database prevents a participant from creating duplicate enrolments for the same event.
+
+The relationship between participants and events is many-to-many because:
+
+* One participant can enrol in many events.
+* One event can have many participants.
+
+The Enrolment entity resolves this many-to-many relationship.
+
+### 2.6 Result
 
 The Result entity stores the race result associated with an enrolment.
 
-Main attributes:
+A result contains:
 
-- `ResultID` – Primary Key
-- `EnrolmentID` – Foreign Key
-- `FinishTime`
-- `FinishPosition`
-- `CapturedByID` – Foreign Key
+* Result ID
+* Enrolment
+* Finish time
+* Finish position
+* Organiser who captured the result
 
-Each enrolment can have at most one result.
+`ResultID` is the primary key.
 
-An organiser records or captures the result.
+`EnrolmentID` is a unique foreign key referencing the Enrolment entity.
 
-## Relationships
+This ensures that an enrolment can have at most one result.
+
+`CapturedByID` references the User entity and identifies the organiser who recorded the result.
+
+## 3. Relationships and Cardinality
 
 ### Role to User
 
-**One-to-Many (1:M)**
+**Role 1 : Many User**
 
 One role can be assigned to many users.
 
-Each user belongs to one role.
+Each user has one assigned role.
+
+```text
+Role 1 ───────────< User
+```
 
 ### User to Event
 
-**One-to-Many (1:M)**
+**User 1 : Many Event**
 
-An organiser can manage many events.
+An organiser can manage multiple events.
 
 Each event has one organiser.
 
+```text
+User (Organiser) 1 ───────────< Event
+```
+
 ### Event to Category
 
-**One-to-Many (1:M)**
+**Event 1 : Many Category**
 
-One event can contain multiple categories.
+One event can have multiple categories.
 
 Each category belongs to one event.
 
+```text
+Event 1 ───────────< Category
+```
+
 ### User to Enrolment
 
-**One-to-Many (1:M)**
+**User 1 : Many Enrolment**
 
-A participant can have multiple enrolments.
+A participant can create multiple enrolments.
 
 Each enrolment belongs to one participant.
 
+```text
+User (Participant) 1 ───────────< Enrolment
+```
+
 ### Event to Enrolment
 
-**One-to-Many (1:M)**
+**Event 1 : Many Enrolment**
 
-An event can have many enrolments.
+An event can have many participant enrolments.
 
-Each enrolment belongs to one event.
+Each enrolment is associated with one event.
+
+```text
+Event 1 ───────────< Enrolment
+```
 
 ### Category to Enrolment
 
-**One-to-Many (1:M)**
+**Category 1 : Many Enrolment**
 
-A category can be selected by multiple participants.
+A category can be selected by many participants.
 
 Each enrolment selects one category.
 
+```text
+Category 1 ───────────< Enrolment
+```
+
 ### Enrolment to Result
 
-**One-to-One (1:1)**
+**Enrolment 1 : 0..1 Result**
 
-An enrolment can have zero or one result.
+An enrolment may have no result before the participant completes the event.
 
-Each result belongs to one enrolment.
+Once a result is recorded, an enrolment can have only one result.
+
+```text
+Enrolment 1 ─────────── 0..1 Result
+```
 
 ### User to Result
 
-**One-to-Many (1:M)**
+**User 1 : Many Result**
 
-An organiser can capture multiple results.
+An organiser can capture results for many enrolments.
 
 Each result records the organiser who captured it.
 
-## Many-to-Many Relationship
+```text
+User (Organiser) 1 ───────────< Result
+```
 
-Participants and events have a many-to-many relationship:
+## 4. Referential Integrity
 
-**Participant ↔ Event**
+Foreign keys are used to ensure that relationships between entities remain valid.
 
-This relationship is resolved through the `Enrolment` entity.
+The database relationships are:
 
-This allows:
+* `User.RoleID` → `Role.RoleID`
+* `Event.OrganiserID` → `User.UserID`
+* `Category.EventID` → `Event.EventID`
+* `Enrolment.ParticipantID` → `User.UserID`
+* `Enrolment.EventID` → `Event.EventID`
+* `Enrolment.CategoryID` → `Category.CategoryID`
+* `Result.EnrolmentID` → `Enrolment.EnrolmentID`
+* `Result.CapturedByID` → `User.UserID`
 
-- One participant to enrol in multiple events.
-- One event to have multiple participants.
-- Each enrolment to identify the selected category.
+A composite relationship between `Enrolment` and `Category` also ensures that the selected category belongs to the event selected in the enrolment.
+
+## 5. Database Design Rules
+
+The ERD is supported by database constraints that improve data integrity.
+
+These include:
+
+* Primary keys uniquely identify records.
+* Foreign keys maintain relationships between entities.
+* Email addresses must be unique.
+* Role names must be unique.
+* Event types are restricted to Run, Walk or Cycle.
+* Enrolment status is restricted to Confirmed or Cancelled.
+* Category distances must be positive.
+* Finish positions must be positive when recorded.
+* A participant cannot enrol in the same event more than once.
+* An enrolment can have at most one result.
+
+## 6. Summary
+
+The RaceDay ERD provides a structured relational model for managing the main activities of the system.
+
+The design separates users, roles, events, categories, enrolments and results while using foreign keys to connect related records.
+
+The Enrolment entity resolves the many-to-many relationship between participants and events, while the Result entity allows completed participant results to be recorded against their enrolments.
