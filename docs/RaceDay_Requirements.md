@@ -4,7 +4,7 @@
 
 The RaceDay Event Management System is designed to manage sporting events, event categories, participant enrolments and race results.
 
-The system supports two main user roles:
+The system will support two main user roles:
 
 - Organiser
 - Participant
