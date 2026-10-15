@@ -87,12 +87,22 @@ public class RoleAccessTests : IClassFixture<RaceDayApiFactory>
             DistanceKm = 21.1,
             EventType = "Running"
         });
+
+        Assert.Equal(HttpStatusCode.Created, createEventResponse.StatusCode);
+
         var createdEvent = await createEventResponse.Content.ReadFromJsonAsync<EventDto>();
         Assert.NotNull(createdEvent);
 
         var categoryResponse = await organiser.PostAsJsonAsync(
             $"/api/events/{createdEvent!.EventId}/categories",
-            new CreateCategoryRequest { Name = "Senior" });
+            new CreateCategoryRequest
+            {
+                Name = "Senior",
+                DistanceKm = 21.1m
+            });
+
+        Assert.Equal(HttpStatusCode.Created, categoryResponse.StatusCode);
+
         var createdCategory = await categoryResponse.Content.ReadFromJsonAsync<CategoryDto>();
         Assert.NotNull(createdCategory);
 
