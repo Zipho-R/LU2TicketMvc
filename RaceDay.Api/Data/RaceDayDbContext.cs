@@ -71,7 +71,7 @@ public class RaceDayDbContext : DbContext
 
         // A Participant may only enrol once per Event/Category combination
         modelBuilder.Entity<Enrolment>()
-            .HasIndex(en => new { en.ParticipantId, en.EventId, en.CategoryId })
+            .HasIndex(en => new { en.ParticipantId, en.EventId })
             .IsUnique();
 
         // One Enrolment -> zero or one Result

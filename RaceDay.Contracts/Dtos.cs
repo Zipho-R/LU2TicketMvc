@@ -104,7 +104,7 @@ public class CreateEnrolmentRequest
 
 public class UpdateEnrolmentStatusRequest
 {
-    // Expected values: "Pending", "Confirmed", "Cancelled"
+    // Expected values: "Confirmed", "Cancelled"
     public string Status { get; set; } = "";
 }
 

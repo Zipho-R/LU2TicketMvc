@@ -13,8 +13,8 @@ public class Enrolment
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
 
-    // "Pending", "Confirmed", "Cancelled"
-    public string Status { get; set; } = "Pending";
+    // "Confirmed", "Cancelled"
+    public string Status { get; set; } = "Confirmed";
 
     // Zero or one Result
     public Result? Result { get; set; }

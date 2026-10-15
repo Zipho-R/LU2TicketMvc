@@ -52,7 +52,7 @@ public class EnrolmentsController : ControllerBase
             ParticipantId = participantId,
             EventId = request.EventId,
             CategoryId = request.CategoryId,
-            Status = "Pending"
+            Status = "Confirmed"
         };
 
         _db.Enrolments.Add(enrolment);
