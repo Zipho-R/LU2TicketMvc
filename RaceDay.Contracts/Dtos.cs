@@ -85,13 +85,17 @@ public class EventDto
 public class CreateCategoryRequest
 {
     public string Name { get; set; } = "";
+    public decimal DistanceKm { get; set; }
+
 }
+
 
 public class CategoryDto
 {
     public int CategoryId { get; set; }
     public string Name { get; set; } = "";
     public int EventId { get; set; }
+    public decimal DistanceKm { get; set; }
 }
 
 // ---------- Enrolments ----------
@@ -100,6 +104,7 @@ public class CreateEnrolmentRequest
 {
     public int EventId { get; set; }
     public int CategoryId { get; set; }
+
 }
 
 public class UpdateEnrolmentStatusRequest

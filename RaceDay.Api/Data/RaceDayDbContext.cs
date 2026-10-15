@@ -90,5 +90,14 @@ public class RaceDayDbContext : DbContext
             new Role { RoleId = 1, Name = "Organiser" },
             new Role { RoleId = 2, Name = "Participant" }
         );
+
+        modelBuilder.Entity<Category>()
+            .Property(c => c.DistanceKm)
+            .HasPrecision(5, 2);
+
+        modelBuilder.Entity<Category>()
+            .HasIndex(c => new { c.EventId, c.Name })
+            .IsUnique(); 
+
     }
 }

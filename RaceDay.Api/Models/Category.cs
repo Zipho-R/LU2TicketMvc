@@ -9,6 +9,7 @@ public class Category
 
     public int EventId { get; set; }
     public Event? Event { get; set; }
+    public decimal DistanceKm { get; set; }
 
     public ICollection<Enrolment> Enrolments { get; set; } = new List<Enrolment>();
 }
