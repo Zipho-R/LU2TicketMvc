@@ -24,10 +24,15 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponse>> Register(RegisterRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
+        if (string.IsNullOrWhiteSpace(request.FirstName) ||
+            string.IsNullOrWhiteSpace(request.LastName) ||
+            string.IsNullOrWhiteSpace(request.Email) ||
+            string.IsNullOrWhiteSpace(request.Password))
         {
-            return BadRequest(new { message = "Email and password are required." });
+            return BadRequest(new { message = "First name, last name, email and password are required." });
         }
+
+        request.Email = request.Email.Trim();
 
         var emailExists = await _db.Users.AnyAsync(u => u.Email == request.Email);
         if (emailExists)
@@ -70,7 +75,7 @@ public class AuthController : ControllerBase
     {
         var user = await _db.Users
             .Include(u => u.Role)
-            .FirstOrDefaultAsync(u => u.Email == request.Email);
+            .FirstOrDefaultAsync(u => u.Email == request.Email.Trim());
 
         if (user is null || user.Role is null)
         {
