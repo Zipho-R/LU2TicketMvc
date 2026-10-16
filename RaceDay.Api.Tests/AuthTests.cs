@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using Microsoft.Extensions.DependencyInjection;
 using RaceDay.Contracts;
 using Xunit;
 
@@ -92,6 +93,45 @@ public class AuthTests : IClassFixture<RaceDayApiFactory>
         });
 
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Register_WithInvalidRole_Fails()
+    {
+        var request = NewParticipant("bad-role@raceday.test");
+        request.Role = "Admin";
+
+        var response = await _factory.CreateClient().PostAsJsonAsync("/api/auth/register", request);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Register_WithMissingPassword_Fails()
+    {
+        var request = NewParticipant("no-password@raceday.test");
+        request.Password = "";
+
+        var response = await _factory.CreateClient().PostAsJsonAsync("/api/auth/register", request);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Register_StoresHashedPassword_NotPlainText()
+    {
+        var request = NewParticipant("hash-check@raceday.test");
+
+        var response = await _factory.CreateClient().PostAsJsonAsync("/api/auth/register", request);
+        var body = await response.Content.ReadAsStringAsync();
+
+        Assert.DoesNotContain(request.Password, body);
+
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<RaceDay.Api.Data.RaceDayDbContext>();
+        var user = db.Users.Single(u => u.Email == request.Email);
+        Assert.False(string.IsNullOrWhiteSpace(user.PasswordHash));
+        Assert.NotEqual(request.Password, user.PasswordHash);
     }
 
     [Fact]
