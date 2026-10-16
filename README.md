@@ -157,15 +157,6 @@ dotnet test RaceDay.sln
 - Events and Categories that already have enrolments cannot be deleted (`409`), which protects the enrolment history.
 - New enrolments are created with the status `Confirmed`; the Organiser can change it to `Pending` or `Cancelled`.
 
-### CI/CD
-`.github/workflows/ci.yml` runs on every push and pull request to `main`: restore -> build -> test.
-
-### GitHub Actions Screenshot
-_Add a screenshot of the green CI run here once pushed._
-
-### Video Presentation
-_Add the unlisted YouTube link here._
-
 ## Part 1 Supporting Documents
 
 The original Part 1 planning documents and supporting material are preserved in `docs/`:
@@ -179,22 +170,10 @@ The original Part 1 planning documents and supporting material are preserved in 
 - [Data Dictionary](docs/Data_Dictionary.md)
 - [RaceDay Requirements](docs/RaceDay_Requirements.md)
 
-## Part 1 CI Evidence
-
-The repository retains the screenshots from the Part 1 GitHub Actions runs:
-
-- [Screenshot 3](Screenshots/Screenshot%20%283%29.png)
-- [Screenshot 4](Screenshots/Screenshot%20%284%29.png)
-- [Screenshot 5](Screenshots/Screenshot%20%285%29.png)
-- [Screenshot 6](Screenshots/Screenshot%20%286%29.png)
-
-These are existing Part 1 evidence. Add a separate screenshot of the successful Part 2 CI run when it is available.
-
 ## Part 1 Video Demonstration
 
 Existing Part 1 video: https://youtu.be/ku8yIwXTC8M
 
-Add the Part 2 API demonstration link under the Video Presentation section above when it is ready.
 ## Part 1 Supporting Documents
 
 The original Part 1 planning documents and supporting material are preserved in `docs/`:
@@ -220,12 +199,11 @@ The repository retains the screenshots from the Part 1 GitHub Actions runs:
 ## Part 2 CI Evidence
 - [Screenshot 16 — Part 2](Screenshots/Screenshot%20%2816%29.png)
 
-
 ## Part 1 Video Demonstration
 
 Existing Part 1 video: https://youtu.be/ku8yIwXTC8M
 
-## Part 1 Video Demonstration
+## Part 2 Video Demonstration
 
 Part 2 video: https://youtu.be/c6g5zSujRGI
 
