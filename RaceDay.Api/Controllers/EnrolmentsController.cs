@@ -44,8 +44,8 @@ public class EnrolmentsController : ControllerBase
         if (category is null) return BadRequest(new { message = "Category is not valid for this Event." });
 
         var alreadyEnrolled = await _db.Enrolments.AnyAsync(e =>
-            e.ParticipantId == participantId && e.EventId == request.EventId && e.CategoryId == request.CategoryId);
-        if (alreadyEnrolled) return BadRequest(new { message = "You are already enrolled in this Event/Category." });
+            e.ParticipantId == participantId && e.EventId == request.EventId);
+        if (alreadyEnrolled) return Conflict(new { message = "You are already enrolled in this Event." });
 
         var enrolment = new Enrolment
         {
