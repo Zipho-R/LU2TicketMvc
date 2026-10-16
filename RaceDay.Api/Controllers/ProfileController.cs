@@ -54,11 +54,25 @@ public class ProfileController : ControllerBase
             return NotFound();
         }
 
+        if (string.IsNullOrWhiteSpace(request.FirstName) ||
+            string.IsNullOrWhiteSpace(request.LastName) ||
+            string.IsNullOrWhiteSpace(request.Email))
+        {
+            return BadRequest(new { message = "First name, last name and email are required." });
+        }
+
+        var email = request.Email.Trim();
+        var emailTaken = await _db.Users.AnyAsync(u => u.Email == email && u.UserId != userId);
+        if (emailTaken)
+        {
+            return Conflict(new { message = "That email is already in use." });
+        }
+
         // A user can only ever update the account tied to their own
         // session UserId - there is no "edit by id" endpoint.
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
-        user.Email = request.Email;
+        user.Email = email;
 
         await _db.SaveChangesAsync();
 
