@@ -1,7 +1,4 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+﻿name: Part 1 .NET Build
 
 on:
   push:
@@ -11,18 +8,21 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Part 1 solution
+        run: dotnet restore LU2TicketMvc.sln
+
+      - name: Build Part 1 solution
+        run: dotnet build LU2TicketMvc.sln --no-restore --configuration Release
+
+      - name: Test Part 1 solution
+        run: dotnet test LU2TicketMvc.sln --no-build --configuration Release --verbosity normal
