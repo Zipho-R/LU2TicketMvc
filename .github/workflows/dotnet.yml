@@ -1,0 +1,28 @@
+﻿name: Part 1 .NET Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Part 1 solution
+        run: dotnet restore LU2TicketMvc.sln
+
+      - name: Build Part 1 solution
+        run: dotnet build LU2TicketMvc.sln --no-restore --configuration Release
+
+      - name: Test Part 1 solution
+        run: dotnet test LU2TicketMvc.sln --no-build --configuration Release --verbosity normal

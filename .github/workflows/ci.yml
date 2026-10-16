@@ -1,10 +1,10 @@
-name: RaceDay CI
+﻿name: RaceDay CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
 
 jobs:
   build-and-test:
@@ -19,11 +19,11 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore packages
-        run: dotnet restore
+      - name: Restore RaceDay solution
+        run: dotnet restore RaceDay.sln
 
-      - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+      - name: Build RaceDay solution
+        run: dotnet build RaceDay.sln --no-restore --configuration Release
 
-      - name: Run unit tests
-        run: dotnet test --no-build --configuration Release --verbosity normal
+      - name: Run RaceDay tests
+        run: dotnet test RaceDay.sln --no-build --configuration Release --verbosity normal

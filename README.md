@@ -146,3 +146,65 @@ _Add a screenshot of the green CI run here once pushed._
 
 ### Video Presentation
 _Add the unlisted YouTube link here._
+
+@'
+
+## Part 1 Supporting Documents
+
+The original Part 1 planning documents and supporting material are preserved in `docs/`:
+
+- [RaceDay Entity Relationship Diagram](docs/RaceDay_ERD.pdf)
+- [API Endpoint Plan](docs/RaceDay_API_Endpoint_Plan.pdf)
+- [SQL Server Database Script](docs/RaceDay_Database.sql)
+- [Database Setup Guide](docs/Database_Setup.md)
+- [ERD Description](docs/ERD_Description.md)
+- [API Endpoint Reference](docs/API_Endpoint_Reference.md)
+- [Data Dictionary](docs/Data_Dictionary.md)
+- [RaceDay Requirements](docs/RaceDay_Requirements.md)
+
+## Part 1 CI Evidence
+
+The repository retains the screenshots from the Part 1 GitHub Actions runs:
+
+- [Screenshot 3](Screenshots/Screenshot%20%283%29.png)
+- [Screenshot 4](Screenshots/Screenshot%20%284%29.png)
+- [Screenshot 5](Screenshots/Screenshot%20%285%29.png)
+- [Screenshot 6](Screenshots/Screenshot%20%286%29.png)
+
+These are existing Part 1 evidence. Add a separate screenshot of the successful Part 2 CI run when it is available.
+
+## Part 1 Video Demonstration
+
+Existing Part 1 video: https://youtu.be/ku8yIwXTC8M
+
+Add the Part 2 API demonstration link under the Video Presentation section above when it is ready.
+'@ | Add-Content -Path .\README.md -Encoding utf8
+## Part 1 Supporting Documents
+
+The original Part 1 planning documents and supporting material are preserved in `docs/`:
+
+- [RaceDay Entity Relationship Diagram](docs/RaceDay_ERD.pdf)
+- [API Endpoint Plan](docs/RaceDay_API_Endpoint_Plan.pdf)
+- [SQL Server Database Script](docs/RaceDay_Database.sql)
+- [Database Setup Guide](docs/Database_Setup.md)
+- [ERD Description](docs/ERD_Description.md)
+- [API Endpoint Reference](docs/API_Endpoint_Reference.md)
+- [Data Dictionary](docs/Data_Dictionary.md)
+- [RaceDay Requirements](docs/RaceDay_Requirements.md)
+
+## Part 1 CI Evidence
+
+The repository retains the screenshots from the Part 1 GitHub Actions runs:
+
+- [Screenshot 3](Screenshots/Screenshot%20%283%29.png)
+- [Screenshot 4](Screenshots/Screenshot%20%284%29.png)
+- [Screenshot 5](Screenshots/Screenshot%20%285%29.png)
+- [Screenshot 6](Screenshots/Screenshot%20%286%29.png)
+
+These are existing Part 1 evidence. Add a separate screenshot of the successful Part 2 CI run when it is available.
+
+## Part 1 Video Demonstration
+
+Existing Part 1 video: https://youtu.be/ku8yIwXTC8M
+
+Add the Part 2 API demonstration link under the Video Presentation section above when it is ready.

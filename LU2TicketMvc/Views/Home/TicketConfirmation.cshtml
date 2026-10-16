@@ -1,0 +1,90 @@
+﻿@* Connects this View to the Ticket model. *@
+@model LU2TicketMvc.Models.Ticket
+
+@* Sets the page title. *@
+@{
+    ViewData["Title"] = "Ticket Confirmation";
+}
+
+@* Creates the main page container. *@
+<div class="container mt-5">
+
+    @* Centres the confirmation card. *@
+    <div class="row justify-content-center">
+
+        @* Controls the width of the confirmation card. *@
+        <div class="col-md-8 col-lg-6">
+            
+            @* Creates the Bootstrap card. *@
+            <div class="card shadow">
+
+                @* Creates the card heading. *@
+                <div class="card-header bg-success text-white">
+
+                    @* Displays the confirmation heading. *@
+                    <h2 class="mb-0">
+                        Ticket Submitted Successfully
+                    </h2>
+
+                </div>
+
+                @* Creates the main card content. *@
+                <div class="card-body">
+
+                    @* Displays a success message. *@
+                    <p class="alert alert-success">
+                        Your support request has been received.
+                    </p>
+
+                    @* Displays the ticket number. *@
+                    <p>
+                        <strong>Ticket Number:</strong>
+                        @Model.Id
+                    </p>
+
+                    @* Displays the student's name. *@
+                    <p>
+                        <strong>Student Name:</strong>
+                        @Model.StudentName
+                    </p>
+
+                    @* Displays the student's email address. *@
+                    <p>
+                        <strong>Student Email:</strong>
+                        @Model.StudentEmail
+                    </p>
+
+                    @* Displays the support issue. *@
+                    <p>
+                        <strong>Support Issue:</strong>
+                        @Model.Issue
+                    </p>
+
+                    @* Displays the current ticket status. *@
+                    <p>
+                        <strong>Ticket Status:</strong>
+
+                        @* Displays the status inside a Bootstrap badge. *@
+                        <span class="badge bg-warning text-dark">
+                            @Model.Status
+                        </span>
+                    </p>
+
+                    @* Creates a link back to the ticket form. *@
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="btn btn-primary">
+
+                        Submit Another Ticket
+
+                    </a>
+                   
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
