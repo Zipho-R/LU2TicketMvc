@@ -212,14 +212,13 @@ The original Part 1 planning documents and supporting material are preserved in 
 
 The repository retains the screenshots from the Part 1 GitHub Actions runs:
 
-- [Screenshot 3](Screenshots/Screenshot (3).png)
-- [Screenshot 4](Screenshots/Screenshot (4).png)
-- [Screenshot 5](Screenshots/Screenshot (5).png)
-- [Screenshot 6](Screenshots/Screenshot (6).png)
+- [Screenshot 3](Screenshots/Screenshot3.png)
+- [Screenshot 4](Screenshots/Screenshot4.png)
+- [Screenshot 5](Screenshots/Screenshot5.png)
+- [Screenshot 6](Screenshots/Screenshot6.png)
 
 ## Part 2 CI Evidence
-- [Screenshot 7](Screenshots/Screenshot (16).png)
-
+- [Screenshot 7](Screenshots/Screenshot6.png)
 
 
 ## Part 1 Video Demonstration
