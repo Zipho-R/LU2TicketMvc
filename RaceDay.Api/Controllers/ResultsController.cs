@@ -33,6 +33,16 @@ public class ResultsController : ControllerBase
     [RequireRole("Organiser")]
     public async Task<ActionResult<ResultDto>> Create(CreateResultRequest request)
     {
+        if (request.Position <= 0)
+        {
+            return BadRequest(new { message = "Position must be greater than zero." });
+        }
+
+        if (request.FinishTime <= TimeSpan.Zero)
+        {
+            return BadRequest(new { message = "Finish time must be greater than zero." });
+        }
+
         var organiserId = HttpContext.GetCurrentUserId();
 
         var enrolment = await _db.Enrolments
