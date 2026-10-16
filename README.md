@@ -48,14 +48,29 @@ RaceDay
 ```
 
 ### Database Setup
-1. Install SQL Server / SQL Server Express and SQL Server Management Studio.
-2. Confirm the connection string in `RaceDay.Api/appsettings.json` matches your local instance.
-3. From the Package Manager Console, with `RaceDay.Api` set as the default project:
+
+1. Install SQL Server Express and SQL Server Management Studio (SSMS).
+2. Confirm that the connection string in `RaceDay.Api/appsettings.json` matches your SQL Server instance.
+3. From the solution root folder, restore the project packages:
+
+   ```powershell
+   dotnet restore
    ```
-   Add-Migration InitialRaceDayDatabase
-   Update-Database
+
+4. Apply the existing Entity Framework Core migration to create the database:
+
+   ```powershell
+   dotnet ef database update --project .\RaceDay.Api --startup-project .\RaceDay.Api
    ```
-4. Open SQL Server Management Studio and confirm the `RaceDayDb` database and its tables exist.
+
+5. Open SQL Server Management Studio, connect to your SQL Server instance, and confirm that `RaceDayDb` and its tables exist.
+
+The initial migration is named `InitialCreate`. If you need to create a new migration after changing the entity models, run:
+
+```powershell
+dotnet ef migrations add YourMigrationName --project .\RaceDay.Api --startup-project .\RaceDay.Api
+```
+
 
 ### How to Run the API
 ```
