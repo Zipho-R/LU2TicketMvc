@@ -193,6 +193,11 @@ public class CategoriesController : ControllerBase
             });
         }
 
+        if (await _db.Enrolments.AnyAsync(e => e.CategoryId == id))
+        {
+            return Conflict(new { message = "This category has enrolments and cannot be deleted." });
+        }
+
         _db.Categories.Remove(category);
         await _db.SaveChangesAsync();
 
