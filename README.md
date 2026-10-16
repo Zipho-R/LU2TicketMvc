@@ -126,17 +126,36 @@ Results. Use it to walk through: register -> login -> create Event -> create Cat
 view enrolments -> capture a Result -> view personal Results.
 
 ### Unit Testing
-`RaceDay.Api.Tests` uses `WebApplicationFactory<Program>` with an isolated EF Core InMemory database per test run,
-so tests exercise the real controllers, filters and session pipeline without touching SQL Server. Coverage includes:
-- Registration and login success and failure paths.
-- Unauthenticated access to a protected endpoint (`401`).
-- Participants blocked from Organiser-only actions (`403`).
-- Organisers successfully creating Events and Participants successfully enrolling (`201`).
+`RaceDay.Api.Tests` uses `WebApplicationFactory<Program>` with an isolated EF Core InMemory database per test class, so
+tests exercise the real controllers, filters, session pipeline and password hashing without touching SQL Server.
+There are 64 tests covering both success and failure paths:
+- **Authentication:** valid/duplicate/invalid-role/missing-field registration, password stored hashed, valid and invalid login, logout clears the session.
+- **Profile:** both roles view and update their own profile; duplicate email (`409`), missing fields (`400`), not logged in (`401`).
+- **Events:** both roles can view; only Organisers create (`201`/`403`); owner-only update and delete; `/mine` returns only own events; validation (`400`); cannot delete an Event that has enrolments (`409`).
+- **Categories:** both roles view; owner-only create/update/delete (`403` for other Organisers and Participants); invalid distance (`400`); duplicate name (`409`); missing Event (`404`).
+- **Enrolments:** Participant enrols (`201`); Organisers cannot enrol (`403`); category must belong to the Event (`400`); one enrolment per Event (`409`); Participants only see their own; Organisers only manage their own Events' enrolments and statuses.
+- **Results:** Organiser captures results for their own Events only; Participants cannot (`403`); duplicates and invalid positions rejected (`400`); Participants only see their own results.
 
 Run locally with:
 ```
-dotnet test
+dotnet test RaceDay.sln
 ```
+
+### HTTP Status Codes Used
+| Code | Used when |
+|---|---|
+| `200` / `201` / `204` | Success / resource created / deleted |
+| `400` | Invalid or missing data, invalid role, invalid category for the Event |
+| `401` | Not logged in |
+| `403` | Wrong role, or an Organiser acting on an Event they do not own |
+| `404` | Resource does not exist |
+| `409` | Duplicate (email, category name, enrolment) or deleting something that still has enrolments |
+
+### Changes From Part 1
+- Categories carry a `DistanceKm` value (for example 5 km or 10 km) so a category can represent a distance as well as an age group.
+- A Participant may enrol only **once per Event** (unique on `ParticipantId` + `EventId`), matching the database design. A second attempt returns `409`.
+- Events and Categories that already have enrolments cannot be deleted (`409`), which protects the enrolment history.
+- New enrolments are created with the status `Confirmed`; the Organiser can change it to `Pending` or `Cancelled`.
 
 ### CI/CD
 `.github/workflows/ci.yml` runs on every push and pull request to `main`: restore -> build -> test.
@@ -146,8 +165,6 @@ _Add a screenshot of the green CI run here once pushed._
 
 ### Video Presentation
 _Add the unlisted YouTube link here._
-
-@'
 
 ## Part 1 Supporting Documents
 
@@ -178,7 +195,6 @@ These are existing Part 1 evidence. Add a separate screenshot of the successful 
 Existing Part 1 video: https://youtu.be/ku8yIwXTC8M
 
 Add the Part 2 API demonstration link under the Video Presentation section above when it is ready.
-'@ | Add-Content -Path .\README.md -Encoding utf8
 ## Part 1 Supporting Documents
 
 The original Part 1 planning documents and supporting material are preserved in `docs/`:
